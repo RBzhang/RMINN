@@ -5,6 +5,7 @@ import torch
 from train_mi import mi_Net
 from MI_net import MI_Net
 from MI_net_DS import MI_net_DS
+from MI_Res import MI_net_Res
 #dataset = loader_musk('clean1.data')   #MUSK1 dataset
 dataset = loader_musk('clean2.data')    #MUSK2 dataset
 criterion = torch.nn.BCELoss()
@@ -61,5 +62,5 @@ def train_1(epoch,model):
             test_1(epoch,model)
             running_loss = 0        
 for epoch in range(1):
-    model = MI_net_DS(dataset.__length__())
+    model = MI_net_Res(dataset.__length__())
     train_1(epoch,model)
