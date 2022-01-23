@@ -45,7 +45,7 @@ class loader_musk(Dataset):
         self.len = leng
         self.lengtht = cols-3
  #       F.normalize(self.x_data,dim=1)
-        print(self.x_data[0].shape)
+ #       print(self.x_data[0].shape)
         # print(self.x_data[91][2])
         # print(self.y_data)
         
