@@ -5,4 +5,4 @@ class pooling:
     def mean_pooling(x):
         return x.mean()
     def lse_pooling(x, r):
-        return torch.exp(r*x).mean().logaddexp() / r
+        return torch.log1p(torch.exp(r*x)).mean()/ r

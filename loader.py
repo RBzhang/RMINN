@@ -55,4 +55,4 @@ class loader_musk(Dataset):
         return self.len
     def __length__(self):
         return self.lengtht
-dataset = loader_musk('clean1.data')
+#dataset = loader_musk('clean1.data')
