@@ -19,9 +19,11 @@ class MI_net_DS(torch.nn.Module):
         x = self.linear2(x)
         x = F.relu(x)
         x_2 = torch.max(x, 1)[0] 
+        # x_2 = torch.mean(x,1)
         x_2 = torch.sigmoid(self.linear6(x_2))
         x = self.linear3(x)
         x = torch.max(x, 1)[0]
+        # x_2 = torch.mean(x,1)
         x = torch.sigmoid(self.linear4(x))
 #        print(x.shape,x_1.shape,x_2.shape)
         x = torch.cat((x_1,x_2,x),1)

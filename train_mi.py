@@ -25,6 +25,7 @@ class mi_Net(torch.nn.Module):
         x = torch.sigmoid(x)
 #        print(x.shape)
         x = torch.max(x[0], 0)[0]
+#        x = torch.mean(x[0] , 0)
 #        x = pooling.mean_pooling(x)
 #        x = pooling.lse_pooling(x,r=0.1)
         return x

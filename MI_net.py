@@ -30,6 +30,7 @@ class MI_Net(torch.nn.Module):
         x = self.linear3(x)
 #        print(x.shape)
         x = max_pool(x)
+#        x = torch.mean(x[0] , 0)
         x = self.linear4(x)
         x = torch.sigmoid(x)
         return x

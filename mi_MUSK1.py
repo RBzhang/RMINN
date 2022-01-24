@@ -7,9 +7,12 @@ from MI_net import MI_Net
 from MI_net_DS import MI_net_DS
 from MI_Res import MI_net_Res
 from pre_ import loader_image
+# 修改此处代码改变数据集
 #dataset = loader_musk('clean1.data')   #MUSK1 dataset
-#dataset = loader_musk('clean2.data')    #MUSK2 dataset
-dataset = loader_image('elephant.mat')
+dataset = loader_musk('clean2.data')    #MUSK2 dataset
+#dataset = loader_image('fox.mat')
+#dataset = loader_image('elephant.mat')
+# dataset = loader_image('tiger.mat')
 criterion = torch.nn.BCELoss()
 
 
@@ -72,5 +75,5 @@ def train_1(epoch,model):
                 outputs = model(inputs)
                 print(outputs , y_pred)
 for epoch in range(1):
-    model = MI_Net(dataset.__length__())
+    model = MI_net_Res(dataset.__length__())
     train_1(epoch,model)
