@@ -18,10 +18,10 @@ def mean_pool(x):
 class MI_Net(torch.nn.Module):
     def __init__(self,length) -> None:
         super().__init__()
-        self.linear1 = torch.nn.Linear(length,256)
-        self.linear2 = torch.nn.Linear(256,128)
-        self.linear3 = torch.nn.Linear(128,64)
-        self.linear4 = torch.nn.Linear(64,1)
+        self.linear1 = torch.nn.Linear(length,256,bias=False)
+        self.linear2 = torch.nn.Linear(256,128,bias=False)
+        self.linear3 = torch.nn.Linear(128,64,bias=False)
+        self.linear4 = torch.nn.Linear(64,1,bias=False)
     def forward(self , x):
         x = self.linear1(x)
         x = F.relu(x)
