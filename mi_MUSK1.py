@@ -12,7 +12,7 @@ from pre_ import loader_image
 dataset = loader_musk('clean2.data')    #MUSK2 dataset
 #dataset = loader_image('fox.mat')
 #dataset = loader_image('elephant.mat')
-# dataset = loader_image('tiger.mat')
+#dataset = loader_image('tiger.mat')
 criterion = torch.nn.BCELoss()
 
 
@@ -22,7 +22,7 @@ def test_1(epoch,model):
     loss = 0
     leng = len(test)
     test_size =  leng - (int(leng * 0.7) - (int(leng * 0.7)) %10)
-    test_begin = (epoch*10)%(leng - leng % 10) + int(leng * 0.7) - (int(leng * 0.7)) %10
+    test_begin = (epoch*10)%(leng - leng % 10) + int(leng * 0.7) - (int(leng * 0.7))%10 
     # test_begin = 0
     # test_size = leng
     # print(test_begin,test_size)
@@ -65,7 +65,7 @@ def train_1(epoch,model):
             optimizer.step()
             running_loss += loss.data
         if count % 100 == 99:
-            print('[%d, %5d] loss: %0.7f' % (count + 1 , index + 1 , running_loss.data/ (train_size * 100)))
+            print('[第%d轮, 训练集大小:%5d] loss: %0.7f' % (count + 1 , index + 1 , running_loss.data/ (train_size * 100)))
             test_1(epoch,model)
             running_loss = 0        
         if count == 999:
@@ -73,7 +73,10 @@ def train_1(epoch,model):
                 _ , data = train[index]
                 inputs , y_pred = data
                 outputs = model(inputs)
-                print(outputs , y_pred)
-for epoch in range(1):
+#                print(outputs , y_pred)
+for epoch in range(1):#网络在这里 选择
+    # model = mi_Net(dataset.__length__())
+    # model = MI_Net(dataset.__length__())
+    # model = MI_net_DS(dataset.__length__())
     model = MI_net_Res(dataset.__length__())
     train_1(epoch,model)

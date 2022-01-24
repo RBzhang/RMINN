@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader
 import torch.nn.functional as F
 import torch
 import torch.optim as optim
+from MIL_pooling import pool
 # dataset = loader_musk('clean1.data')
 
 class mi_Net(torch.nn.Module):
@@ -26,8 +27,7 @@ class mi_Net(torch.nn.Module):
 #        print(x.shape)
         x = torch.max(x[0], 0)[0]
 #        x = torch.mean(x[0] , 0)
-#        x = pooling.mean_pooling(x)
-#        x = pooling.lse_pooling(x,r=0.1)
+#        x = pool.lse(x[0] , 0.5)
         return x
 
 class MI_Net(torch.nn.Module):
@@ -48,5 +48,5 @@ class MI_Net(torch.nn.Module):
         x = torch.sigmoid(x)
         x = torch.max(x[0] , 0)[0]
 #        x = pooling.mean_pooling(x)
-#        x = pooling.lse_pooling(x,r=0.1)
+#        x = pool.lse(x[0] , 0.5)
         return x
