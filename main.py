@@ -11,7 +11,7 @@ from pre_ import loader_image
 # 修改此处代码改变数据集
 #dataset = loader_musk('clean1.data')   #MUSK1 dataset
 #dataset = loader_musk('clean2.data')    #MUSK2 dataset
-dataset = loader_image('fox+.mat')
+dataset = loader_image('fox.mat')
 #dataset = loader_image('elephant.mat')
 #dataset = loader_image('tiger.mat')
 criterion = torch.nn.BCELoss()
@@ -34,7 +34,8 @@ def train_(model , epoch , t):
     ran.pop(epoch)
 #    print((ran))
     l_epo = len(num[epoch])
-    for count in range(200):
+    t_c = 270             #迭代次数
+    for count in range(t_c):
 #        index = 0
         for index in ran:
             for i in num[index]:
@@ -51,7 +52,7 @@ def train_(model , epoch , t):
                 # print(index)
             #index += 1
         
-    print('[%d  %d loss:   %0.7f]' % (t + 1, epoch + 1, running_loss / (100 * (lens - l_epo))))
+    print('[%d  %d loss:   %0.7f]' % (t + 1, epoch + 1, running_loss / (t_c * (lens - l_epo))))
 def test(model, epoch):
     accuracy_num = 0
     l_epo = len(num[epoch])
@@ -72,13 +73,10 @@ if __name__ == '__main__':
     for i in range(5):
         accuracy = 0
         for j in range(10):
-            model = mi_Net(dataset.__length__())
-#            model = MI_Net(dataset.__length__())
-#            model = MI_net_DS(dataset.__length__())
-#            model = MI_net_Res(dataset.__length__())
-#            optimizer = optim.SGD(model.parameters() , lr = 0.01 , momentum=0.5)
-#            accracy = 0
-#            for index in range(10):
+#            model = mi_Net(dataset.__length__())   #mi-net
+#            model = MI_Net(dataset.__length__())   #MI-net
+            model = MI_net_DS(dataset.__length__()) #MI-net-DS
+#            model = MI_net_Res(dataset.__length__())  #MI-net-RS
             train_(model,j,i)
             accuracy += test(model, j)
             print('the accuracy number: %d' % (accuracy))

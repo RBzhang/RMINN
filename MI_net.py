@@ -1,6 +1,7 @@
 #from pyparsing import TokenConverter
 import torch
 import torch.nn.functional as F
+from MIL_pooling import pool
 #import numpy
 #from torch.utils.data import DataLoader
 #import torch.optim as optim
@@ -31,7 +32,8 @@ class MI_Net(torch.nn.Module):
 #        print(x.shape)
         x = max_pool(x)
 #        x = torch.mean(x[0] , 0)
-        x = self.linear4(x)
+#        x = pool.lse(x , 1)[0]
+        x = self.linear4(x)[0]
         x = torch.sigmoid(x)
         return x
 #x = torch.rand((1,8,64))

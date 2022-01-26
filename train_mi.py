@@ -27,7 +27,7 @@ class mi_Net(torch.nn.Module):
 #        print(x.shape)
         x = torch.max(x[0], 0)[0]
 #        x = torch.mean(x[0] , 0)
-#        x = pool.lse(x[0] , 0.5)
+#        x = pool.lse(x , 0.5)[0]
         return x
 
 class MI_Net(torch.nn.Module):

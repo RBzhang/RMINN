@@ -2,7 +2,7 @@ import torch
 import torch.nn.functional as F
 
 from MI_net_DS import MI_net_DS
-
+from MIL_pooling import pool
 class MI_net_Res(torch.nn.Module):
     def __init__(self,length) -> None:
         super().__init__()
@@ -15,16 +15,19 @@ class MI_net_Res(torch.nn.Module):
 #        print(x.shape)
         x = self.linear1(x)
         x = F.relu(x)
-        # x_1 = torch.max(x , 1)[0]
-        x_1 = torch.mean(x , 1)
+        x_1 = torch.max(x , 1)[0]
+#        x_1 = torch.mean(x , 1)
+#        x_1 = pool.lse(x,1)
         x = self.linear2(x)
         x = F.relu(x)
-        # x_1 = torch.max(x , 1)[0] + x_1
-        x_1 = torch.mean(x , 1) + x_1
+        x_1 = torch.max(x , 1)[0] + x_1
+#        x_1 = torch.mean(x , 1) + x_1
+#        x_1 = pool.lse(x_1,1) + x_1
         x = self.linear3(x)
         x = F.relu(x)
-        # x = torch.max(x , 1)[0] + x_1
-        x = torch.mean(x , 1) + x_1
+        x = torch.max(x , 1)[0] + x_1
+#        x = torch.mean(x , 1) + x_1
+#        x = pool.lse(x,1) + x_1
         x = self.linear4(x)
         x = self.Sigmoid(x[0])
 #        print(x.shape)
