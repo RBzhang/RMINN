@@ -18,10 +18,13 @@ class mi_Net(torch.nn.Module):
     def forward(self,x,r = 1):
         x = self.linear1(x)
         x = F.relu(x)
+#        x = F.normalize(x,p=2,dim=1)
         x = self.linear2(x)
         x = F.relu(x)
+#        x = F.normalize(x,p=2,dim=1)
         x = self.linear3(x)
         x = F.relu(x)
+#        x = F.normalize(x,p=2,dim=1)
         x = self.linear4(x)
         x = torch.sigmoid(x)
 #        print(x.shape)
@@ -40,10 +43,13 @@ class MI_Net(torch.nn.Module):
     def forward(self,x,r = 1):
         x = self.linear1(x)
         x = F.relu(x)
+        x = F.normalize(x,p=2,dim=1)
         x = self.linear2(x)
         x = F.relu(x)
+        x = F.normalize(x,p=2,dim=1)
         x = self.linear3(x)
         x = F.relu(x)
+        x = F.normalize(x,p=2,dim=1)
         x = self.linear4(x)
         x = torch.sigmoid(x)
         x = torch.max(x[0] , 0)[0]

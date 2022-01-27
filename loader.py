@@ -42,6 +42,7 @@ class loader_musk(Dataset):
         for row in range(rows):
             for col in range(cols-3):
                 data_in[row,col] = float(data[row,col])
+#        data_in = F.normalize(data_in,p=2,dim=0)
         for i in range(cols-3):
             data_in[:,i] = (data_in[:,i]-data_in.min())/(data_in[:,i].max()-data_in.min())
 #        print(data_in[0])
@@ -60,7 +61,7 @@ class loader_musk(Dataset):
 #        print(self.y_data)
  #       F.normalize(self.x_data,dim=1)
 #        print(self.x_data[0].shape)
-#        print(self.x_data[7])
+        # print(self.x_data[7])
         # print(self.y_data)
         
     def __getitem__(self, index):
@@ -69,4 +70,4 @@ class loader_musk(Dataset):
         return self.len
     def __length__(self):
         return self.lengtht
-# dataset = loader_musk('clean1.data')
+#dataset = loader_musk('clean1.data')

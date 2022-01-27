@@ -15,16 +15,19 @@ class MI_net_Res(torch.nn.Module):
 #        print(x.shape)
         x = self.linear1(x)
         x = F.relu(x)
+#        x = F.normalize(x,p=2,dim=1)
         x_1 = torch.max(x , 1)[0]
 #        x_1 = torch.mean(x , 1)
 #        x_1 = pool.lse(x,1)
         x = self.linear2(x)
         x = F.relu(x)
+#        x = F.normalize(x,p=2,dim=1)
         x_1 = torch.max(x , 1)[0] + x_1
 #        x_1 = torch.mean(x , 1) + x_1
 #        x_1 = pool.lse(x_1,1) + x_1
         x = self.linear3(x)
         x = F.relu(x)
+#        x = F.normalize(x,p=2,dim=1)
         x = torch.max(x , 1)[0] + x_1
 #        x = torch.mean(x , 1) + x_1
 #        x = pool.lse(x,1) + x_1

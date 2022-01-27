@@ -26,8 +26,10 @@ class MI_Net(torch.nn.Module):
     def forward(self , x):
         x = self.linear1(x)
         x = F.relu(x)
+#        x = F.normalize(x,p=2,dim=1)
         x = self.linear2(x)
         x = F.relu(x)
+#        x = F.normalize(x,p=2,dim=1)
         x = self.linear3(x)
 #        print(x.shape)
         x = max_pool(x)
