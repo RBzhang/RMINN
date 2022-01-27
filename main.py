@@ -8,11 +8,11 @@ from MI_net_DS import MI_net_DS
 from MI_Res import MI_net_Res
 from pre_ import loader_image
 # 修改此处代码改变数据集
-#dataset = loader_musk('clean1.data')   #MUSK1 dataset
+dataset = loader_musk('clean1.data')   #MUSK1 dataset
 #dataset = loader_musk('clean2.data')    #MUSK2 dataset
 #dataset = loader_image('fox.mat')
 #dataset = loader_image('elephant.mat')
-dataset = loader_image('tiger.mat')
+#dataset = loader_image('tiger.mat')
 criterion = torch.nn.BCELoss()
 train_data = DataLoader(dataset=dataset,batch_size=1,shuffle=True)
 
@@ -33,7 +33,7 @@ def train_(model , epoch , t):
     ran.pop(epoch)
 #    print((ran))
     l_epo = len(num[epoch])
-    t_c = 100             #迭代次数
+    t_c = 200             #迭代次数
     for count in range(t_c):
 #        index = 0
         for index in ran:
@@ -74,8 +74,8 @@ if __name__ == '__main__':
         for j in range(10):
 #            model = mi_Net(dataset.__length__())   #mi-net
 #            model = MI_Net(dataset.__length__())   #MI-net
-            model = MI_net_DS(dataset.__length__()) #MI-net-DS
-#            model = MI_net_Res(dataset.__length__())  #MI-net-RS
+#            model = MI_net_DS(dataset.__length__()) #MI-net-DS
+            model = MI_net_Res(dataset.__length__())  #MI-net-RS
             train_(model,j,i)
             accuracy += test(model, j)
             print('the accuracy number: %d' % (accuracy))
