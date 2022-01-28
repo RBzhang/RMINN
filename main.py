@@ -9,14 +9,18 @@ from MI_Res import MI_net_Res
 from pre_ import loader_image
 # 修改此处代码改变数据集
 #dataset = loader_musk('clean1.data')   #MUSK1 dataset
-dataset = loader_image('musk2.mat')    #MUSK2 dataset
-#dataset = loader_image('fox.mat')
+#dataset = loader_image('musk2.mat')    #MUSK2 dataset
+dataset = loader_image('fox.mat')
 #dataset = loader_image('elephant.mat')
 #dataset = loader_image('tiger.mat')
+gpus = [0]
+# print(torch.cuda.device_count())
+cuda_gpu = torch.cuda.is_available()
 criterion = torch.nn.BCELoss()
 train_data = DataLoader(dataset=dataset,batch_size=1,shuffle=True)
 
 lens = len(list(train_data))
+
 expet = 10 * int(lens / 10)
 #print(lens)
 num = []
@@ -24,8 +28,13 @@ for i in range(10):
     num.append(list(range(int(i)*int(lens / 10) ,int(i)*int(lens/10)  +int(lens / 10))))
 for index in range(lens - int(lens / 10) * 10):
     num[9].append(index + expet)
-train = list(enumerate(train_data,0))
-print(num)
+train =list(enumerate(train_data,0))
+# print(train[0])
+# print(num)
+
+# for i in range(len(train)):
+#     train[i][1][0] = train[i][1][0].cuda()
+#     train[i][1][1] = train[i][1][1].cuda()
 def train_(model , epoch , t):
     optimizer = optim.SGD(model.parameters(), lr = 0.01, momentum=0.5)
     running_loss = 0
@@ -35,12 +44,18 @@ def train_(model , epoch , t):
     l_epo = len(num[epoch])
     t_c = 330             #迭代次数
     for count in range(t_c):
+#        print("t")
 #        index = 0
         for index in ran:
             for i in num[index]:
                 _, data = train[i]
                 inputs , y_pred = data
+                if(cuda_gpu):
+                    inputs = inputs.to("cuda:0")
+                    y_pred = y_pred.to("cuda:0")
+                
                 outputs = model(inputs)
+#                y_pred= y_pred
 #                if(outputs[0].data > 1. or outputs[0].data < 0.):
 #                print(outputs)
 #                if(y_pred[0].data > 1. or y_pred[0].data < 0.):
@@ -60,7 +75,11 @@ def test(model, epoch):
     for i in num[epoch]:
         _, data = train[i]
         inputs, y_pred = data
+        if(cuda_gpu):
+            inputs = inputs.to("cuda:0")
+            y_pred = y_pred.to("cuda:0")
         outputs = model(inputs)
+#        y_pred = y_pred
         if outputs[0].data > 0.5 and y_pred[0].data > 0.9:
             accuracy_num += 1
         elif outputs[0].data < 0.5 and y_pred[0].data < 0.1:
@@ -76,6 +95,8 @@ if __name__ == '__main__':
 #            model = MI_Net(dataset.__length__())   #MI-net
             model = MI_net_DS(dataset.__length__()) #MI-net-DS
 #            model = MI_net_Res(dataset.__length__())  #MI-net-RS
+            if(cuda_gpu):
+                model = model.to("cuda:0")
             train_(model,j,i)
             accuracy += test(model, j)
             print('the accuracy number: %d' % (accuracy))

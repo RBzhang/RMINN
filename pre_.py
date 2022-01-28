@@ -29,7 +29,7 @@ class loader_image(Dataset):
         for index in range(self.len):
             self.x_data[index] = F.normalize(self.x_data[index],p=2,dim=0)
         # std_ = torch.std(self.x_data[0],dim=0)
-        print(self.x_data[0].shape)
+#        print(self.x_data[0].shape)
         # for index in self.x_data:
         #     std_ = torch.std(index, dim=0)
 
