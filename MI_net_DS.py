@@ -14,23 +14,23 @@ class MI_net_DS(torch.nn.Module):
     def forward(self , x):
         x = self.linear1(x)
         x = F.relu(x)
-#        x = F.normalize(x , p=2,dim=1)
-#        x_1 = torch.max(x, 1)[0]
+        x = F.normalize(x , p=2,dim=1)
+        x_1 = torch.max(x, 1)[0]
 #        x_1 = torch.mean(x,1)
-        x_1 = pool.lse(x , r=2)
+#        x_1 = pool.lse(x , r=2)
         x_1 = torch.sigmoid(self.linear5(x_1))
         x = self.linear2(x)
         x = F.relu(x)
-#        x = F.normalize(x , p=2,dim=1)
-#        x_2 = torch.max(x, 1)[0] 
+        x = F.normalize(x , p=2,dim=1)
+        x_2 = torch.max(x, 1)[0] 
 #        x_2 = torch.mean(x,1)
-        x_2 = pool.lse(x , r=2)
+#        x_2 = pool.lse(x , r=2)
         x_2 = torch.sigmoid(self.linear6(x_2))
         x = self.linear3(x)
-#        x = F.normalize(x , p=2,dim=1)
-#        x = torch.max(x, 1)[0]
+        x = F.normalize(x , p=2,dim=1)
+        x = torch.max(x, 1)[0]
 #        x = torch.mean(x,1)
-        x = pool.lse(x , r=2)
+#        x = pool.lse(x , r=2)
         x = torch.sigmoid(self.linear4(x))
         # print(x_1)
         # print(x_2)
