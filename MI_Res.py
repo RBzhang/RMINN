@@ -11,22 +11,23 @@ class MI_net_Res(torch.nn.Module):
         self.linear3 = torch.nn.Linear(128,128,bias=False)
         self.linear4 = torch.nn.Linear(128,1,bias=False)
         self.Sigmoid = torch.nn.Sigmoid()
+        
     def forward(self , x):
 #        print(x.shape)
         x = self.linear1(x)
-        x = F.relu(x)
+        x = torch.relu(x)
 #        x = F.normalize(x,p=2,dim=1)
         x_1 = torch.max(x , 1)[0]
 #        x_1 = torch.mean(x , 1)
 #        x_1 = pool.lse(x,1)
         x = self.linear2(x)
-        x = F.relu(x)
+        x = torch.relu(x)
 #        x = F.normalize(x,p=2,dim=1)
         x_1 = torch.max(x , 1)[0] + x_1
 #        x_1 = torch.mean(x , 1) + x_1
 #        x_1 = pool.lse(x_1,1) + x_1
         x = self.linear3(x)
-        x = F.relu(x)
+        x = torch.relu(x)
 #        x = F.normalize(x,p=2,dim=1)
         x = torch.max(x , 1)[0] + x_1
 #        x = torch.mean(x , 1) + x_1

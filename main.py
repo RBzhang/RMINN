@@ -8,8 +8,8 @@ from MI_net_DS import MI_net_DS
 from MI_Res import MI_net_Res
 from pre_ import loader_image
 # 修改此处代码改变数据集
-dataset = loader_image('musk1.mat')   #MUSK1 dataset
-#dataset = loader_image('musk2.mat')    #MUSK2 dataset
+#dataset = loader_image('musk1.mat')   #MUSK1 dataset
+dataset = loader_image('musk2.mat')    #MUSK2 dataset
 #dataset = loader_image('fox.mat')
 #dataset = loader_image('elephant.mat')
 #dataset = loader_image('tiger.mat')
@@ -43,11 +43,8 @@ def train_(model , epoch , t):
     ran.pop(epoch)
 #    print((ran))
     l_epo = len(num[epoch])
-    t_c = 220             #迭代次数
+    t_c = 500             #迭代次数
     for count in range(t_c):
-#        print("t")
-#        index = 0
-        
         for index in ran:
             for i in num[index]:
                 _, data = train[i]
@@ -94,12 +91,13 @@ if __name__ == '__main__':
     for i in range(5):
         accuracy = 0
         for j in range(10):
-            model = mi_Net(dataset.__length__())   #mi-net
+#            model = mi_Net(dataset.__length__())   #mi-net
 #            model = MI_Net(dataset.__length__())   #MI-net
-#            model = MI_net_DS(dataset.__length__()) #MI-net-DS
+            model = MI_net_DS(dataset.__length__()) #MI-net-DS
 #            model = MI_net_Res(dataset.__length__())  #MI-net-RS
             if(cuda_gpu):
                 model = model.to("cuda:0")
+#                print("model")
             train_(model,j,i)
             accuracy += test(model, j)
             print('the accuracy number: %d' % (accuracy))
