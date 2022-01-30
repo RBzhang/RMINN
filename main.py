@@ -9,8 +9,8 @@ from MI_Res import MI_net_Res
 from pre_ import loader_image
 # 修改此处代码改变数据集
 #dataset = loader_image('musk1.mat')   #MUSK1 dataset
-dataset = loader_image('musk2.mat')    #MUSK2 dataset
-#dataset = loader_image('fox.mat')
+#dataset = loader_image('musk2.mat')    #MUSK2 dataset
+dataset = loader_image('fox.mat')
 #dataset = loader_image('elephant.mat')
 #dataset = loader_image('tiger.mat')
 gpus = [0]
@@ -43,7 +43,7 @@ def train_(model , epoch , t):
     ran.pop(epoch)
 #    print((ran))
     l_epo = len(num[epoch])
-    t_c = 500             #迭代次数
+    t_c = 150             #迭代次数
     for count in range(t_c):
         for index in ran:
             for i in num[index]:
