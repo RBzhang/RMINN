@@ -52,7 +52,7 @@ class MI_Net(torch.nn.Module):
 #        x = F.normalize(x,p=2,dim=1)
         x = self.linear4(x)
         x = torch.sigmoid(x)
-        x = torch.max(x[0] , 0)[0]
-#        x = pooling.mean_pooling(x)
-#        x = pool.lse(x[0] , 0.5)
+#        x = torch.max(x[0] , 0)[0]
+#        x = torch.mean(x[0] , 0)
+        x = pool.lse(x , 0.5)[0]
         return x
