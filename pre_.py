@@ -15,15 +15,15 @@ class loader_image(Dataset):
         random.shuffle(num)
         j = 0
         for i in num:
-            self.y_data[j] = (float(x[i][1][0]) + 1.) / 2
+            self.y_data[j] = (float(x[i][1][0]) + 1) / 2
             self.x_data.append(torch.Tensor(x[i][0])[:,0:-1].clone())
             j += 1
         ma = max(self.y_data)
         mi = min(self.y_data)
         self.y_data = (self.y_data - mi) /(ma - mi) 
 #        self.x_data = torch.Tensor(self.x_data)
-#        print(torch.std(self.x_data[0],dim = 0))
-#        print(self.x_data[0])
+        # print(self.x_data[0].shape)
+        # print(self.y_data[0])
         self.len = x.shape[0]
         self.leng = self.x_data[0].shape[1]
         for index in range(self.len):
@@ -40,4 +40,4 @@ class loader_image(Dataset):
         return self.len
     def __length__(self):
         return self.leng
-#dataset = loader_image('musk1.mat')
+dataset = loader_image('musk1.mat')

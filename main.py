@@ -36,14 +36,14 @@ train =list(enumerate(train_data,0))
 #     train[i][1][0] = train[i][1][0].cuda()
 #     train[i][1][1] = train[i][1][1].cuda()
 def train_(model , epoch , t):
-    optimizer = optim.SGD(model.parameters(), lr = 0.01, momentum=0.5)
+    optimizer = optim.SGD(model.parameters(), lr = 0.002 ,momentum= 0.9 , weight_decay=0.003)
 #    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=50, gamma=0.5)
     running_loss = 0
     ran = list(range(10))
     ran.pop(epoch)
 #    print((ran))
     l_epo = len(num[epoch])
-    t_c = 300             #迭代次数
+    t_c = 80             #迭代次数
     for count in range(t_c):
         for index in ran:
             for i in num[index]:
