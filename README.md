@@ -28,8 +28,8 @@ CPU的实验manjaro系统下完成，利用anaconda建立虚拟环境，使用CP
 
 优化器的lr=0.01，momentum=0.5<br>
 其中在MUSK2数据集上需要在优化器中添加weight-decay参数以进行权重衰减再训练才可以得到文中的预测效果<br>
-其中momentum=0.9，weight-decay=0.0005 , DS。<br>
-momentum=0.9，weight-decay=0.0005 ， RS。<br>
+其中momentum=0.9，weight-decay=0.003 , DS。<br>
+momentum=0.9，weight-decay=0.003 ， RS。<br>
 得到上述结果的迭代次数<br>
 
 |    |MUSK1|MUSK2|fox|elephant|tiger|

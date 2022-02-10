@@ -23,28 +23,28 @@ lens = len(list(train_data))
 
 expet = 10 * int(lens / 10)
 #print(lens)
-num = []
-for i in range(10):
-    num.append(list(range(int(i)*int(lens / 10) ,int(i)*int(lens/10)  +int(lens / 10))))
-for index in range(lens - int(lens / 10) * 10):
-    num[9].append(index + expet)
-train =list(enumerate(train_data,0))
+# num = []
+# for i in range(10):
+#     num.append(list(range(int(i)*int(lens / 10) ,int(i)*int(lens/10)  +int(lens / 10))))
+# for index in range(lens - int(lens / 10) * 10):
+#     num[9].append(index + expet)
+# train =list(enumerate(train_data,0))
 # print(train[0])
 # print(num)
 
 # for i in range(len(train)):
 #     train[i][1][0] = train[i][1][0].cuda()
 #     train[i][1][1] = train[i][1][1].cuda()
-def train_(model , epoch , t):
-    optimizer = optim.SGD(model.parameters(), lr = 0.002 ,momentum= 0.9 , weight_decay=0.003)
+def train_(model , epoch , t , num):
+    optimizer = optim.SGD(model.parameters(), lr = 0.0005 ,momentum= 0.9 , weight_decay=0.005)
 #    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=50, gamma=0.5)
     running_loss = 0
     ran = list(range(10))
     ran.pop(epoch)
 #    print((ran))
     l_epo = len(num[epoch])
-    t_c = 80             #迭代次数
-    for count in range(t_c):
+#    t_c = 100             #迭代次数
+    for count in range(5):
         for index in ran:
             for i in num[index]:
                 _, data = train[i]
@@ -66,12 +66,13 @@ def train_(model , epoch , t):
                 loss.backward()
                 optimizer.step()
 #        scheduler.step()
-    print('[%d  %d loss:   %0.7f]' % (t + 1, epoch + 1, running_loss / (t_c * (lens - l_epo))))
-def test(model, epoch):
+    print('[%d  %d loss:   %0.7f]' % (t + 1, epoch + 1, running_loss / (5 * (lens - l_epo))))
+def test(model, epoch , num):
     accuracy_num = 0
     l_epo = len(num[epoch])
 #    print(epoch)
 #    print(l_epo)
+    loss = 0
     for i in num[epoch]:
         _, data = train[i]
         inputs, y_pred = data
@@ -79,28 +80,39 @@ def test(model, epoch):
             inputs = inputs.to("cuda:0")
             y_pred = y_pred.to("cuda:0")
         outputs = model(inputs)
+        loss += criterion(outputs,y_pred).data
 #        y_pred = y_pred
         if outputs[0].data > 0.5 and y_pred[0].data > 0.9:
             accuracy_num += 1
         elif outputs[0].data < 0.5 and y_pred[0].data < 0.1:
             accuracy_num += 1
+    print('loss : %2.5f' % (loss))
 #    print('accuracy:  %d %%' % (100 * accuracy_num /l_epo))
     return accuracy_num
 if __name__ == '__main__':
     count = 0
     for i in range(5):
         accuracy = 0
+        num = []
+        for p in range(10):
+            num.append(list(range(int(p)*int(lens / 10) ,int(p)*int(lens/10)  +int(lens / 10))))
+        for index in range(lens - int(lens / 10) * 10):
+            num[9].append(index + expet)
+        train =list(enumerate(train_data,0))
         for j in range(10):
-            model = mi_Net(dataset.__length__())   #mi-net
-#            model = MI_Net(dataset.__length__())   #MI-net
+#            model = mi_Net(dataset.__length__())   #mi-net
+            model = MI_Net(dataset.__length__())   #MI-net
 #            model = MI_net_DS(dataset.__length__()) #MI-net-DS
 #            model = MI_net_Res(dataset.__length__())  #MI-net-RS
             if(cuda_gpu):
                 model = model.to("cuda:0")
 #                print("model")
-            train_(model,j,i)
-            accuracy += test(model, j)
-            print('the accuracy number: %d' % (accuracy))
+            t_c = 50
+            for k in range(t_c):
+                train_(model,j,i , num)
+                accurac = test(model, j , num)
+                print('the accuracy number: %d %d' % (accurac , k))
+            accuracy += accurac
 #            accracy /= 10
 #            t_num += accracy
         print('accuracy:  %2.5f %%' % (100 * accuracy / lens))

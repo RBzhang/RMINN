@@ -2,6 +2,7 @@
 import torch
 import torch.nn.functional as F
 from MIL_pooling import pool
+from MIL_pooling import attention
 class MI_net_DS(torch.nn.Module):
     def __init__(self , length) -> None:
         super().__init__()
@@ -11,11 +12,15 @@ class MI_net_DS(torch.nn.Module):
         self.linear4 = torch.nn.Linear(64 , 1,bias=False)
         self.linear5 = torch.nn.Linear(256 , 1,bias=False)
         self.linear6 = torch.nn.Linear(128,1,bias=False)
+        self.atten1 = attention(256, 30)
+        self.atten2 = attention(128,30)
+        self.atten3 = attention(64,30)
     def forward(self , x):
         x = self.linear1(x)
         x = torch.relu(x)
 #        x = F.normalize(x , p=2,dim=1)
         x_1 = torch.max(x, 1)[0]
+#        x_1 = self.atten1(x)
 #        x_1 = torch.mean(x,1)
 #        x_1 = pool.lse(x , r=2)
         x_1 = torch.sigmoid(self.linear5(x_1))
@@ -23,6 +28,7 @@ class MI_net_DS(torch.nn.Module):
         x = torch.relu(x)
 #        x = F.normalize(x , p=2,dim=1)
         x_2 = torch.max(x, 1)[0] 
+#        x_2 = self.atten2(x)
 #        x_2 = torch.mean(x,1)
 #        x_2 = pool.lse(x , r=2)
         x_2 = torch.sigmoid(self.linear6(x_2))
@@ -30,6 +36,7 @@ class MI_net_DS(torch.nn.Module):
         x = torch.relu(x)
 #        x = F.normalize(x , p=2,dim=1)
         x = torch.max(x, 1)[0]
+#        x = self.atten3(x)
 #        x = torch.mean(x,1)
 #        x = pool.lse(x , r=2)
         x = torch.sigmoid(self.linear4(x))
