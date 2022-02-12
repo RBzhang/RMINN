@@ -8,10 +8,10 @@ from MI_net_DS import MI_net_DS
 from MI_Res import MI_net_Res
 from pre_ import loader_image
 # 修改此处代码改变数据集
-dataset = loader_image('musk1.mat')   #MUSK1 dataset
+#dataset = loader_image('musk1.mat')   #MUSK1 dataset
 #dataset = loader_image('musk2.mat')    #MUSK2 dataset
 #dataset = loader_image('fox.mat')
-#dataset = loader_image('elephant.mat')
+dataset = loader_image('elephant.mat')
 #dataset = loader_image('tiger.mat')
 gpus = [0]
 # print(torch.cuda.device_count())
@@ -36,7 +36,8 @@ expet = 10 * int(lens / 10)
 #     train[i][1][0] = train[i][1][0].cuda()
 #     train[i][1][1] = train[i][1][1].cuda()
 def train_(model , epoch , t , num):
-    optimizer = optim.SGD(model.parameters(), lr = 0.0005 ,momentum= 0.9 , weight_decay=0.005)
+    model.train()
+    optimizer = optim.SGD(model.parameters(), lr = 0.002 ,momentum= 0.5 ,weight_decay=0.002,nesterov=True)
 #    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=50, gamma=0.5)
     running_loss = 0
     ran = list(range(10))
@@ -44,11 +45,12 @@ def train_(model , epoch , t , num):
 #    print((ran))
     l_epo = len(num[epoch])
 #    t_c = 100             #迭代次数
-    for count in range(5):
+    for count in range(10):
         for index in ran:
             for i in num[index]:
                 _, data = train[i]
                 inputs , y_pred = data
+                # print(inputs)
                 if(cuda_gpu):
                     inputs = inputs.to("cuda:0")
                     y_pred = y_pred.to("cuda:0")
@@ -66,8 +68,9 @@ def train_(model , epoch , t , num):
                 loss.backward()
                 optimizer.step()
 #        scheduler.step()
-    print('[%d  %d loss:   %0.7f]' % (t + 1, epoch + 1, running_loss / (5 * (lens - l_epo))))
+    print('[%d  %d loss:   %0.7f]' % (t + 1, epoch + 1, running_loss / (10 * (lens - l_epo))))
 def test(model, epoch , num):
+    model.eval()
     accuracy_num = 0
     l_epo = len(num[epoch])
 #    print(epoch)
@@ -107,7 +110,7 @@ if __name__ == '__main__':
             if(cuda_gpu):
                 model = model.to("cuda:0")
 #                print("model")
-            t_c = 50
+            t_c = 25
             for k in range(t_c):
                 train_(model,j,i , num)
                 accurac = test(model, j , num)

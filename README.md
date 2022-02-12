@@ -48,3 +48,17 @@ momentum=0.9，weight-decay=0.003 ， RS。<br>
 |max|92.826%|83.333%|64.500%|87.200%|82.400%|
 |mean|**86.739%**|78.039%|**64.400%**|85.800%|84.200%|
 |lse|87.391%|81.373%|**63.900%**|**87.100%**|84.00%|
+
+## 2022.2.11补充，复现文章Attention-based Multiple Instance Learning
+
+这篇文章的核心思想就是在基于包分类的方法的基础上，对神经网络输出的最后一层的结果采用注意力机制，使池化方式也是可学习的，从而使最能代表包特征的instance在结果中占据的权重最大。<br>
+其中在benchmark数据集上的网络结构就是将MI-net的池化函数变为注意力机制<br>
+注意力机制的代码在MIL_pooling.py中，被写为attention类<br>
+
+|    |MUSK1|MUSK2|fox|elephant|tiger|
+|Attention|87.174%|82.157%|59.100%|83.500%|85.900%|
+|Attention-gate|87.174%|82.7451%|59.100%|84.700%|83.900%|
+
+其中fox、musk2数据集使用文中的参数无法得到最优结果<br>
+fox : lr = 0.005 , momentum=0.5,weight-decay=0<br>
+musk2: lr = 0.0005 , momentum=0.9, weight-decay=0.003<br>
