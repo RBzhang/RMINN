@@ -56,6 +56,7 @@ momentum=0.9，weight-decay=0.003 ， RS。<br>
 注意力机制的代码在MIL_pooling.py中，被写为attention类<br>
 
 |    |MUSK1|MUSK2|fox|elephant|tiger|
+|---|---|---|---|---|---|
 |Attention|87.174%|82.157%|59.100%|83.500%|85.900%|
 |Attention-gate|87.174%|82.7451%|59.100%|84.700%|83.900%|
 
